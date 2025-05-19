@@ -613,7 +613,6 @@ def main():
     
     # Overview column
     with col1:
-        st.markdown("""<div class="panel">""", unsafe_allow_html=True)
         
         # Portfolio metrics - more compact layout
         st.markdown("<h3 style='font-size:1.1em; margin-bottom:0.5rem;'>Portfolio Health</h3>", unsafe_allow_html=True)
@@ -661,7 +660,6 @@ def main():
     # Positions column - Now with more space
     with col2:
         # Top section with filters and table
-        st.markdown("""<div class="panel">""", unsafe_allow_html=True)
         
         # Add compact filter options in a single row
         filter_cols = st.columns(3)
@@ -712,7 +710,6 @@ def main():
         
         # Display risky positions in a more compact layout
         if len(risky_positions) > 0:
-            st.markdown("""<div class="panel">""", unsafe_allow_html=True)
             st.markdown("<h3 style='font-size:1.1em; margin:0 0 0.5rem 0;'>🚨 At-Risk Positions</h3>", unsafe_allow_html=True)
             
             # Use horizontal cards for risky positions
