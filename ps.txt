@@ -1,0 +1,42 @@
+You are an expert Python developer building AI-powered DeFi agents with Edwin infra. 
+
+Your task:
+Build a Streamlit-based AI liquidation monitoring dashboard for DeFi users. It should:
+
+1. Load lending positions from `positions.json` file (fields: wallet, collateral, borrowed, health_factor)
+2. Show a live, auto-refreshing table (every 10s) with these positions
+3. If any health factor < 1.1:
+   - Highlight it in **orange (#FB8500)**
+   - Show a warning message with **yellow (#FFB703)** text
+   - Call a mocked function `move_to_safe_protocol(wallet)` that prints a simulated POST API call to Edwin infra
+4. Use the official Edwin color palette for styling:
+   - Edwin Blue `#0022FF` for header
+   - Pearl `#F5F7F7` for background
+   - Grey `#2E2E2E` for text
+   - Light Blue `#8ECEE6` for healthy positions
+   - Orange `#FB8500` for risky positions
+   - Yellow `#FFB703` for warning labels
+   - Green `#3ABD4A` for confirmed safe moves
+5. Add a logo placeholder or text for "Powered by Edwin DeFAI Infrastructure"
+6. Optional: add sound alert when health factor drops below 1.1 using `beepy` package
+7. Comment code clearly
+8. Add a README explaining what it does, how to run it, and Edwin’s role
+
+Libraries:
+- streamlit
+- pandas
+- json
+- time
+- (optional) beepy
+
+Deliverables:
+- `liquidation_dashboard.py`
+- `positions.json`
+- README.md
+- Screenshot of the UI
+
+Helpful Links:
+- Edwin Finance: https://edwin.finance/
+- Edwin Brand Kit: https://github.com/edwin-finance/brand-kit
+
+Write clean, modular, beginner-friendly code.

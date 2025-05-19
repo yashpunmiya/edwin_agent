@@ -1,0 +1,32 @@
+[
+  {
+    "wallet": "0x1234567890abcdef1234567890abcdef12345678",
+    "collateral": "ETH",
+    "borrowed": "USDC",
+    "health_factor": 1.8
+  },
+  {
+    "wallet": "0xabcdef1234567890abcdef1234567890abcdef12",
+    "collateral": "BTC",
+    "borrowed": "DAI",
+    "health_factor": 1.5
+  },
+  {
+    "wallet": "0x7890abcdef1234567890abcdef1234567890abcd",
+    "collateral": "SOL",
+    "borrowed": "USDT",
+    "health_factor": 1.2
+  },
+  {
+    "wallet": "0x567890abcdef1234567890abcdef1234567890ab",
+    "collateral": "AVAX",
+    "borrowed": "USDC",
+    "health_factor": 1.05
+  },
+  {
+    "wallet": "0x90abcdef1234567890abcdef1234567890abcdef",
+    "collateral": "MATIC",
+    "borrowed": "ETH",
+    "health_factor": 0.95
+  }
+] 
