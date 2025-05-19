@@ -1,0 +1,13 @@
+[theme]
+primaryColor = "#0022FF"  # Edwin Blue
+backgroundColor = "#151A2D"  # Dark BG
+secondaryBackgroundColor = "#1E2745"  # Panel BG
+textColor = "#FFFFFF"  # White
+font = "sans serif"
+
+[server]
+enableCORS = false
+enableXsrfProtection = false
+
+[global]
+developmentMode = false 

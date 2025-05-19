@@ -3,8 +3,15 @@ import pandas as pd
 import json
 import time
 import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
+
+# Try importing plotly with error handling
+try:
+    import plotly.express as px
+    import plotly.graph_objects as go
+except ImportError:
+    st.error("Error: Plotly package is missing. Please install it using 'pip install plotly'.")
+    st.stop()
+
 from datetime import datetime
 import random
 
@@ -313,9 +320,45 @@ CUSTOM_CSS = f"""
 
 def load_positions():
     """Load positions from the JSON file"""
-    with open("positions.json", "r") as f:
-        positions = json.load(f)
-    return positions
+    try:
+        with open("positions.json", "r") as f:
+            positions = json.load(f)
+        return positions
+    except Exception as e:
+        st.error(f"Error loading positions: {e}")
+        # Create default positions if file not found
+        return [
+            {
+                "wallet": "0x1234567890abcdef1234567890abcdef12345678",
+                "collateral": "ETH",
+                "borrowed": "USDC",
+                "health_factor": 1.8
+            },
+            {
+                "wallet": "0xabcdef1234567890abcdef1234567890abcdef12",
+                "collateral": "BTC",
+                "borrowed": "DAI",
+                "health_factor": 1.5
+            },
+            {
+                "wallet": "0x7890abcdef1234567890abcdef1234567890abcd",
+                "collateral": "SOL",
+                "borrowed": "USDT",
+                "health_factor": 1.2
+            },
+            {
+                "wallet": "0x567890abcdef1234567890abcdef1234567890ab",
+                "collateral": "AVAX",
+                "borrowed": "USDC",
+                "health_factor": 1.05
+            },
+            {
+                "wallet": "0x90abcdef1234567890abcdef1234567890abcdef",
+                "collateral": "MATIC",
+                "borrowed": "ETH",
+                "health_factor": 0.95
+            }
+        ]
 
 def mock_move_to_safe_protocol(wallet):
     """Mock function to simulate moving assets to a safer protocol"""
@@ -570,6 +613,7 @@ def main():
     
     # Overview column
     with col1:
+        st.markdown("""<div class="panel">""", unsafe_allow_html=True)
         
         # Portfolio metrics - more compact layout
         st.markdown("<h3 style='font-size:1.1em; margin-bottom:0.5rem;'>Portfolio Health</h3>", unsafe_allow_html=True)
@@ -608,7 +652,7 @@ def main():
         st.markdown("<h3 style='font-size:1.1em; margin:0.5rem 0;'>System Info</h3>", unsafe_allow_html=True)
         st.markdown(f"""
         <div class="metric-card" style="margin-bottom:0.5rem;">
-            <h3 style="margin:0;color:{EDWIN_BLUE};font-size:0.9em;">Auto-refresh: 10s</h3>
+            <h3 style="margin:0;color:{EDWIN_BLUE};font-size:0.9em;">Auto-refresh: Active</h3>
         </div>
         """, unsafe_allow_html=True)
         
@@ -617,6 +661,7 @@ def main():
     # Positions column - Now with more space
     with col2:
         # Top section with filters and table
+        st.markdown("""<div class="panel">""", unsafe_allow_html=True)
         
         # Add compact filter options in a single row
         filter_cols = st.columns(3)
@@ -659,7 +704,7 @@ def main():
         # Refresh indicator - more compact
         st.markdown(f"""
         <div class="refresh-indicator">
-            <span>Auto-refresh every 10s • Last updated: {current_time}</span>
+            <span>Auto-refreshing • Last updated: {current_time}</span>
         </div>
         """, unsafe_allow_html=True)
         
@@ -667,6 +712,7 @@ def main():
         
         # Display risky positions in a more compact layout
         if len(risky_positions) > 0:
+            st.markdown("""<div class="panel">""", unsafe_allow_html=True)
             st.markdown("<h3 style='font-size:1.1em; margin:0 0 0.5rem 0;'>🚨 At-Risk Positions</h3>", unsafe_allow_html=True)
             
             # Use horizontal cards for risky positions
@@ -736,10 +782,22 @@ def main():
                     <p>No positions are currently at risk of liquidation</p>
                 </div>
                 """, unsafe_allow_html=True)
-    
-    # Sleep for 10 seconds to simulate real-time updates
-    time.sleep(10)
-    st.rerun()
 
 if __name__ == "__main__":
-    main() 
+    main()
+    
+    # Use a session state for auto-refreshing instead of a blocking sleep/rerun
+    if 'refresh' not in st.session_state:
+        st.session_state.refresh = True
+        st.session_state.counter = 0
+    
+    # Display a countdown and rerun the app
+    placeholder = st.empty()
+    
+    # Auto-refresh every 30 seconds (longer time to reduce resource usage on Streamlit Cloud)
+    if st.session_state.refresh:
+        with placeholder.container():
+            st.session_state.counter += 1
+            if st.session_state.counter >= 3:  # Only rerun every 3rd time to reduce server load
+                st.session_state.counter = 0
+                st.rerun() 
